@@ -1,0 +1,281 @@
+<!DOCTYPE html>  
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>2-Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+/*
+   This document has been created with Marked.app <http://markedapp.com>, Copyright 2011 Brett Terpstra
+   Please leave this notice in place, along with any additional credits below.
+   ---------------------------------------------------------------
+   Title: Swiss
+   Author: Brett Terpstra
+   Description: Clean, Swiss typography with no frills.
+*/
+body{-webkit-font-smoothing:antialiased;font:normal .8764em/1.5em Arial,Verdana,sans-serif;margin:0}html>body{font-size:13px}li{font-size:110%}li li{font-size:100%}li p{font-size:100%;margin:.5em 0}h1{color:#000;font-size:2.2857em;line-height:.6563em;margin:.6563em 0}h2{color:#111;font-size:1.7143em;line-height:.875em;margin:.875em 0}h3{color:#111;font-size:1.5em;line-height:1em;margin:1em 0}h4{color:#111;font-size:1.2857em;line-height:1.1667em;margin:1.1667em 0}h5{color:#111;font-size:1.15em;line-height:1.3em;margin:1.3em 0}h6{font-size:1em;line-height:1.5em;margin:1.5em 0}body,p,td,div{color:#111;font-family:"Helvetica Neue",Helvetica,Arial,Verdana,sans-serif;word-wrap:break-word}h1,h2,h3,h4,h5,h6{line-height:1.5em}a{-webkit-transition:color .2s ease-in-out;color:#0d6ea1;text-decoration:none}a:hover{color:#3593d9}.footnote{color:#0d6ea1;font-size:.8em;vertical-align:super}#wrapper img{max-width:100%;height:auto}dd{margin-bottom:1em}li>p:first-child{margin:0}ul ul,ul ol{margin-bottom:.4em}caption,col,colgroup,table,tbody,td,tfoot,th,thead,tr{border-spacing:0}table{border:1px solid rgba(0,0,0,0.25);border-collapse:collapse;display:table;empty-cells:hide;margin:-1px 0 23px;padding:0;table-layout:fixed}caption{display:table-caption;font-weight:700}col{display:table-column}colgroup{display:table-column-group}tbody{display:table-row-group}tfoot{display:table-footer-group}thead{display:table-header-group}td,th{display:table-cell}tr{display:table-row}table th,table td{font-size:1.1em;line-height:23px;padding:0 1em}table thead{background:rgba(0,0,0,0.15);border:1px solid rgba(0,0,0,0.15);border-bottom:1px solid rgba(0,0,0,0.2)}table tbody{background:rgba(0,0,0,0.05)}table tfoot{background:rgba(0,0,0,0.15);border:1px solid rgba(0,0,0,0.15);border-top:1px solid rgba(0,0,0,0.2)}figure{display:inline-block;margin-bottom:1.2em;position:relative;margin:1em 0}figcaption{font-style:italic;text-align:center;background:rgba(0,0,0,.9);color:rgba(255,255,255,1);position:absolute;left:0;bottom:-24px;width:98%;padding:1%;-webkit-transition:all .2s ease-in-out}.poetry pre{display:block;font-family:Georgia,Garamond,serif!important;font-size:110%!important;font-style:italic;line-height:1.6em;margin-left:1em}.poetry pre code{font-family:Georgia,Garamond,serif!important}blockquote p{font-size:110%;font-style:italic;line-height:1.6em}sup,sub,a.footnote{font-size:1.4ex;height:0;line-height:1;position:relative;vertical-align:super}sub{vertical-align:sub;top:-1px}p,h5{font-size:1.1429em;line-height:1.3125em;margin:1.3125em 0}dt,th{font-weight:700}table tr:nth-child(odd),table th:nth-child(odd),table td:nth-child(odd){background:rgba(255,255,255,0.06)}table tr:nth-child(even),table td:nth-child(even){background:rgba(0,0,0,0.06)}@media print{body{overflow:auto}img,pre,blockquote,table,figure,p{page-break-inside:avoid}#wrapper{background:#fff;color:#303030;font-size:85%;padding:10px;position:relative;text-indent:0}}@media screen{.inverted #wrapper,.inverted{background:rgba(37,42,42,1)}.inverted hr{border-color:rgba(51,63,64,1)!important}.inverted p,.inverted td,.inverted li,.inverted h1,.inverted h2,.inverted h3,.inverted h4,.inverted h5,.inverted h6,.inverted th,.inverted .math,.inverted caption,.inverted dd,.inverted dt{color:#eee!important}.inverted table tr:nth-child(odd),.inverted table th:nth-child(odd),.inverted table td:nth-child(odd){background:0}.inverted pre code{color:#111}.inverted a{color:rgba(172,209,213,1)}#wrapper{padding:20px}::selection{background:rgba(157,193,200,.5)}h1::selection{background-color:rgba(45,156,208,.3)}h2::selection{background-color:rgba(90,182,224,.3)}h3::selection,h4::selection,h5::selection,h6::selection,li::selection,ol::selection{background-color:rgba(133,201,232,.3)}code::selection{background-color:rgba(0,0,0,.7);color:#eee}code span::selection{background-color:rgba(0,0,0,.7)!important;color:#eee!important}a::selection{background-color:rgba(255,230,102,.2)}.inverted a::selection{background-color:rgba(255,230,102,.6)}td::selection,th::selection,caption::selection{background-color:rgba(180,237,95,.5)}}
+</style>
+
+</head>
+<body class="normal">
+  <div id="wrapper">
+      <h1>204: Swift Functional Programming</h1>
+
+<h2>Introduction</h2>
+
+<p>First we briefly consider how to model the Game of Life in an OOP vs
+functional style.</p>
+
+<p>The starter shows the beginning of an implementation in a less
+functional style, which relies on mutable variables and impure
+functions that mutate those variables.</p>
+
+<h1>Step 1 - Observe aliasing</h1>
+
+<p>We set only (0,0) alive. Add this line to check if cell (1,0) is alive:</p>
+
+<pre><code>g.isCellAliveAt(1, 0)
+</code></pre>
+
+<p>Observe that it is alive! This is a problem with aliasing</p>
+
+<h2>Step 2 - Fix aliasing problem by instance management</h2>
+
+<p>We need to ensure every column contains a distinct array of distinct
+MCell instances.</p>
+
+<p>Rewrite the MGrid initializer to move that creates a column inside the
+loop that creates a row:</p>
+
+<pre><code>init() {
+  var grid = NSMutableArray()
+  for columnIndex in 0..&lt;10 {
+    var column = NSMutableArray()
+    for rowIndex in 0..&lt;10 {
+      column.addObject(MCell(alive: false))
+    }
+    grid.addObject(column)
+  }
+  self.columns = grid
+}
+</code></pre>
+
+<p>Now every cell is a distinct instance</p>
+
+<h1>Step 3 - Try to fix aliasing problem with value type collections</h1>
+
+<p>Replace this MGrid variable and the initializer with a version that uses Swift arrays, which are value types: </p>
+
+<pre><code>var columns = [ [MCell] ]()
+init() {
+  var column = [MCell]()
+  for rowIndex in 0..&lt;10 {
+    column.append(MCell())
+  }
+  for columnIndex in 0..&lt;10 {
+    self.columns.append(column)
+  }
+}
+</code></pre>
+
+<p>Observe this does not work. MCell still causes aliasing.</p>
+
+<h1>Step 4 - Fix aliasing problem with value type collections and data</h1>
+
+<p>Make MCell into a struct:</p>
+
+<pre><code>struct MCell {
+  var alive:Bool
+  init() { self.alive = false }
+}
+</code></pre>
+
+<p>and update the setter to remove the cast:</p>
+
+<pre><code>func setCell(columnIndex:Int,_ rowIndex:Int,_ alive:Bool) -&gt; Void {
+  self.columns[columnIndex][rowIndex].alive = alive
+}
+</code></pre>
+
+<p>Now it works.</p>
+
+<p>The moral: if you use value types, you do not need to track instances
+&#8211; i.e., object identity. You only need to think about equality. This
+is simpler and easier.</p>
+
+<p>But it&#8217;s not <em>quite</em> a mathematical value because it is not
+immutable. Although you do not need to worry about other references
+were unexpectedly used to mutate the instance, you still might worry
+that you yourself mutated incorrectly.</p>
+
+<h1>Step 5 - Consider how to implement GoL</h1>
+
+<p>Start implementing a function to update the grid:</p>
+
+<pre><code>func updateBoard(inout grid:MGrid) -&gt; Void {
+  for col in grid.columns {
+    for cell in col {
+      let isAlive = cell.alive
+      // count living neighbors
+      // and put results ... ?
+    }
+  }
+}
+</code></pre>
+
+<p>If we set the cell itself to its updated value for alive, then its
+value is incorrect when we go to compute its neighbor&#8217;s
+progress. Mutation is hard to keep track of.</p>
+
+<p>So maybe we need to make a copy of the entire board? But that&#8217;s almost
+&#8220;functional&#8221; &#8211; then we&#8217;re actually just computing an entirely new
+value for the board, rather than mutating the one board that progress
+through time, as was our original plan.</p>
+
+<h2>Step 6 - Consider FP-style representation of a board and cell</h2>
+
+<p>Erase it all and define this new immutable struct which represents a <em>living cell</em>:</p>
+
+<pre><code>struct Cell
+{
+  let x:Int
+  let y:Int
+}
+
+// MARK: Equatable
+/// Two cells are equal iff all their members are equal
+func ==(lhs: Cell, rhs: Cell) -&gt; Bool {
+  return lhs.x == rhs.x &amp;&amp; lhs.y == rhs.y
+}
+
+// MARK: Hashable
+extension Cell : Hashable {
+  var hashValue : Int { return self.x.hashValue ^ self.y.hashValue  }
+}
+</code></pre>
+
+<p>(Implementing Equatable and Hashable is a necessary pain. You always need equality.)</p>
+
+<h2>Step 7 - Represent board as just the collection of living cells</h2>
+
+<p>Enter this representation for a board with one live cell:</p>
+
+<pre><code>let initialBoard = [Cell(x:0,y:0)]
+</code></pre>
+
+<p>We will represent evolution through time as computing one entire
+immutable value for the whole board from another. This is immutable
+and simple.</p>
+
+<h2>Step 8 - Generating a cell&#8217;s neighbors:</h2>
+
+<p>Write this function for generating a cell&#8217;s neighbors:</p>
+
+<pre><code>func neighbors(OfCell cell:Cell) -&gt; [Cell]
+{
+  let deltas = [(-1,-1),(0,-1),(1,-1),
+                (-1, 0),       (1,0 ),
+                (-1, 1),(0, 1),(1, 1)]
+
+  var neighbors = [Cell]()
+  for delta in deltas {
+    neighbors.append(Cell(x: cell.x + delta.0, y: cell.y + delta.1))
+  }
+  return neighbors
+}
+</code></pre>
+
+<p>We loop over a collection to build a new collection &#8211; a common
+pattern.</p>
+
+<h2>Step 9 - Use &#8220;map&#8221; to simplify the function neighbors</h2>
+
+<p>The function <code>map</code> is used to generate a new collection by applying a
+transform to every element in a collection. Use map to refactor:</p>
+
+<pre><code>func neighbors(OfCell cell:Cell) -&gt; [Cell]
+{
+  let deltas = [(-1,-1),(0,-1),(1,-1),
+                (-1, 0),       (1,0 ),
+                (-1, 1),(0, 1),(1, 1)]
+
+  return map(deltas, { Cell(x: cell.x + $0.0, y: cell.y + $0.1) } )
+}
+</code></pre>
+
+<h2>Step 9 - Implement time-evolution logic with loops</h2>
+
+<pre><code>/// compute next cells, using no HOFs
+func activeCellsOneStepAfter1(activeCells:[Cell]) -&gt; [Cell]
+{
+  // loop and build array of cells neighboring active cells
+  var neighborings = [Cell]()
+  for cell in activeCells {
+    for neighborOfCell in neighbors(OfCell: cell) {
+      neighborings.append(neighborOfCell)
+    }
+  }
+
+  // loop and count duplicate neighborings
+  var neighboringsPerCell = Dictionary&lt;Cell,Int&gt;()
+  for neighboringCell in neighborings {
+    if let value = neighboringsPerCell[neighboringCell] {
+      neighboringsPerCell[neighboringCell] = value + 1
+    }
+    else {
+      neighboringsPerCell[neighboringCell] = 1
+    }
+  }
+
+  // loop to filter
+  var neighboringsActiveNextStep = [Cell]()
+  for (theNeighbor,neighborCount) in neighboringsPerCell {
+    if       (neighborCount == 3) ||
+    (neighborCount == 2 &amp;&amp; find(activeCells,theNeighbor) != nil)
+    {
+      neighboringsActiveNextStep.append(theNeighbor)
+    }
+  }
+
+  return neighboringsActiveNextStep
+}
+</code></pre>
+
+<p>How does this work? We build up a list of all &#8220;neighborings&#8221; &#8211; all
+instances of a cell neighboring a live cell. This list may include
+the same cell multiple times if a cell is a neighbor to multiple
+distinct live cells.</p>
+
+<p>Then for every cell <em>next</em> to a neighboring, we count the number
+neighborings it has, and we use that count to determine whether it is
+alive in the next time step.</p>
+
+<p>(This is a bit tricky. It works because Conway&#8217;s algorithm is
+spatially local. For instance, if the rules allowes certain patterns
+of live cells to cast spores many spaces away, then just looking near
+the neighborings would not suffice.)</p>
+
+<h2>Step 10 - Use filter to simplify the last step</h2>
+
+<p>The loop-to-filter stanza loops, checks a condition, and builds a up a
+new collection. This is common pattern abstracted through the HOF
+filter.</p>
+
+<p>Replace the the loop-to-filter paragraph with this use of filter</p>
+
+<pre><code>func isActiveNextStep(cell:Cell, neighboringCount:Int) -&gt; Bool
+{
+  return
+    (neighboringCount == 3) ||
+      (neighboringCount == 2 &amp;&amp; find(activeCells,cell) != nil)
+}
+let neighboringsActiveNextStep:[(Cell,Int)] = filter(neighboringsPerCell, isActiveNextStep )
+</code></pre>
+
+<h2>Step 11 - insert these functions into the the project</h2>
+
+<p>Add these functions to the before starter project in Conway.swift</p>
+    </div>
+</body>
+</html>
