@@ -38,50 +38,45 @@ functions that mutate those variables.</p>
 <pre><code>g.isCellAliveAt(1, 0)
 </code></pre>
 
-<p>Observe that it is alive! This is a problem with aliasing</p>
+<p>Observe that it is alive! This is a problem with <em>aliasing</em>, two names
+referring to the same object.</p>
+
+<p>Because we create the grid by appending the same initial column, and
+because MCell is a reference type, all the cells in one row point to
+the object.</p>
+
+<p>The essential problem is that we need to keep track of both <em>names</em>
+and <em>objects</em>.</p>
 
 <h2>Step 2 - Fix aliasing problem by instance management</h2>
 
 <p>We need to ensure every column contains a distinct array of distinct
 MCell instances.</p>
 
-<p>Rewrite the MGrid initializer to move that creates a column inside the
-loop that creates a row:</p>
+<p>Rewrite the MGrid initializer to move the loop that creates a column
+inside the loop that creates a row:</p>
 
-<pre><code>init() {
-  var grid = NSMutableArray()
+<pre><code>var columns:[[MCell]]
+init() {
+  var grid:[[MCell]] = []
   for columnIndex in 0..&lt;10 {
-    var column = NSMutableArray()
+    var column:[MCell] = []
     for rowIndex in 0..&lt;10 {
-      column.addObject(MCell(alive: false))
+      column.append(MCell())
     }
-    grid.addObject(column)
+
+    grid.append(column)
   }
+
   self.columns = grid
 }
 </code></pre>
 
-<p>Now every cell is a distinct instance</p>
+<p>Now every cell is a distinct instance.</p>
 
-<h1>Step 3 - Try to fix aliasing problem with value type collections</h1>
+<p>We fixed the aliasing problem by keeping track of aliases.</p>
 
-<p>Replace this MGrid variable and the initializer with a version that uses Swift arrays, which are value types: </p>
-
-<pre><code>var columns = [ [MCell] ]()
-init() {
-  var column = [MCell]()
-  for rowIndex in 0..&lt;10 {
-    column.append(MCell())
-  }
-  for columnIndex in 0..&lt;10 {
-    self.columns.append(column)
-  }
-}
-</code></pre>
-
-<p>Observe this does not work. MCell still causes aliasing.</p>
-
-<h1>Step 4 - Fix aliasing problem with value type collections and data</h1>
+<h1>Step 3 - Fix aliasing problem with value type collections and data</h1>
 
 <p>Make MCell into a struct:</p>
 
@@ -100,16 +95,15 @@ init() {
 
 <p>Now it works.</p>
 
-<p>The moral: if you use value types, you do not need to track instances
-&#8211; i.e., object identity. You only need to think about equality. This
-is simpler and easier.</p>
+<p>The moral: if you use value types (structs and enums), then you do not
+need to track the the <em>identity</em> of objects separately from their
+<em>values</em>. You can think only about values, mor like in mathematics.</p>
 
-<p>But it&#8217;s not <em>quite</em> a mathematical value because it is not
-immutable. Although you do not need to worry about whether other
-references were unexpectedly used to mutate the instance, you still
-might worry that you yourself mutated incorrectly.</p>
+<p>You could similar effects by using exclusively immutable class
+types. When all pointers and objects are const, you cann&#8217;t distinguish
+instances.</p>
 
-<h1>Step 5 - Consider how to implement GoL</h1>
+<h1>Step 4 - Consider how to implement Game of Life</h1>
 
 <p>Start implementing a function to update the grid:</p>
 
@@ -124,18 +118,21 @@ might worry that you yourself mutated incorrectly.</p>
 }
 </code></pre>
 
-<p>If we set the cell itself to its updated value for alive, then its
-value is incorrect when we go to compute its neighbor&#8217;s
-progress. Mutation is hard to keep track of.</p>
+<p>As these loops run, we move across the board setting setting cells.</p>
+
+<p>But how do we set the cell to its new value and then, when computing
+its neighbors value, correctly use the original cell&#8217;s old value?</p>
+
+<p>Moral: Mutation is hard to keep track of. What has mutated? When?</p>
 
 <p>So maybe we need to make a copy of the entire board? But that&#8217;s almost
 &#8220;functional&#8221; &#8211; then we&#8217;re actually just computing an entirely new
 value for the board, rather than mutating the one board that progress
 through time, as was our original plan.</p>
 
-<h2>Step 6 - Consider FP-style representation of a board and cell</h2>
+<h2>Step 5 - Consider FP-style representation of a board and cell</h2>
 
-<p>Erase it all and define this new immutable struct which represents a <em>living cell</em>:</p>
+<p>Erase everything and define this new immutable struct which represents a <em>living cell</em>:</p>
 
 <pre><code>struct Cell
 {
@@ -157,7 +154,7 @@ extension Cell : Hashable {
 
 <p>(Implementing Equatable and Hashable is a necessary pain. You always need equality.)</p>
 
-<h2>Step 7 - Represent board as just the collection of living cells</h2>
+<h2>Step 6 - Represent board as just the collection of living cells</h2>
 
 <p>Enter this representation for a board with one live cell:</p>
 
@@ -168,7 +165,7 @@ extension Cell : Hashable {
 immutable value for the whole board from another. This is immutable
 and simple.</p>
 
-<h2>Step 8 - Generating a cell&#8217;s neighbors:</h2>
+<h2>Step 7 - Generating a cell&#8217;s neighbors:</h2>
 
 <p>Write this function for generating a cell&#8217;s neighbors:</p>
 
@@ -180,16 +177,17 @@ and simple.</p>
 
   var neighbors = [Cell]()
   for delta in deltas {
-    neighbors.append(Cell(x: cell.x + delta.0, y: cell.y + delta.1))
+    neighbors.append( Cell(x: cell.x + delta.0, y: cell.y + delta.1) )
   }
   return neighbors
 }
 </code></pre>
 
 <p>We loop over a collection to build a new collection &#8211; a common
-pattern.</p>
+pattern. The fixed part is the loop and build. The changing part is
+inside append.</p>
 
-<h2>Step 9 - Use &#8220;map&#8221; to simplify the function neighbors</h2>
+<h2>Step 8 - Use &#8220;map&#8221; to simplify the function neighbors</h2>
 
 <p>The function <code>map</code> is used to generate a new collection by applying a
 transform to every element in a collection. Use map to refactor:</p>
@@ -205,6 +203,8 @@ transform to every element in a collection. Use map to refactor:</p>
 </code></pre>
 
 <h2>Step 9 - Implement time-evolution logic with loops</h2>
+
+<p>Add the following time-evolution function:</p>
 
 <pre><code>/// compute next cells, using no HOFs
 func activeCellsOneStepAfter1(activeCells:[Cell]) -&gt; [Cell]
@@ -243,26 +243,26 @@ func activeCellsOneStepAfter1(activeCells:[Cell]) -&gt; [Cell]
 </code></pre>
 
 <p>How does this work? We build up a list of all &#8220;neighborings&#8221; &#8211; all
-instances of a cell neighboring a live cell. This list may include
+instances of a cell neighboring a live cell. This list will include
 the same cell multiple times if a cell is a neighbor to multiple
 distinct live cells.</p>
 
-<p>Then for every cell <em>next</em> to a neighboring, we count the number
-neighborings it has, and we use that count to determine whether it is
-alive in the next time step.</p>
+<p>Then for every cell <em>next</em> to such a neighboring, we count the number
+of neighborings it has, and we use that count to determine whether it
+is alive in the next time step.</p>
 
 <p>(This is a bit tricky. It works because Conway&#8217;s algorithm is
-spatially local. For instance, if the rules allowes certain patterns
+spatially local. For instance, if the rules allowed certain patterns
 of live cells to cast spores many spaces away, then just looking near
 the neighborings would not suffice.)</p>
 
 <h2>Step 10 - Use filter to simplify the last step</h2>
 
-<p>The loop-to-filter stanza loops, checks a condition, and builds a up a
-new collection. This is common pattern abstracted through the HOF
-filter.</p>
+<p>The loop-and-filter stanza loops, checks a condition, and builds up a
+new collection. This is a common pattern abstracted through the hgiher
+order function <code>filter</code>.</p>
 
-<p>Replace the the loop-to-filter paragraph with this use of filter</p>
+<p>Replace the the loop-to-filter paragraph with this use of filter:</p>
 
 <pre><code>func isActiveNextStep(cell:Cell, neighboringCount:Int) -&gt; Bool
 {
@@ -273,9 +273,11 @@ filter.</p>
 let neighboringsActiveNextStep:[(Cell,Int)] = filter(neighboringsPerCell, isActiveNextStep )
 </code></pre>
 
-<h2>Step 11 - insert these functions into the the project</h2>
+<h2>Step 11 - insert these functions into the project</h2>
 
-<p>Add these functions to the before starter project in Conway.swift</p>
+<p>Add these functions to Conway.swift in the project in starter/before.</p>
+
+<p>Run!</p>
     </div>
 </body>
 </html>
