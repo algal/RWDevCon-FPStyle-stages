@@ -97,11 +97,10 @@ init() {
 
 <p>The moral: if you use value types (structs and enums), then you do not
 need to track the the <em>identity</em> of objects separately from their
-<em>values</em>. You can think only about values, mor like in mathematics.</p>
+<em>values</em>. You can think only about values, more like in mathematics.</p>
 
-<p>You could similar effects by using exclusively immutable class
-types. When all pointers and objects are const, you cann&#8217;t distinguish
-instances.</p>
+<p>(You could do even better by using immutable types, whether class
+types or value types. Wihout mutability, aliasing is irrelevant.)</p>
 
 <h1>Step 4 - Consider how to implement Game of Life</h1>
 
