@@ -18,16 +18,16 @@ class MCell : NSObject {
 }
 
 class MGrid {
-  var columns:NSMutableArray
+  var columns:[[MCell]]
   init() {
-    var column = NSMutableArray()
+    var column:[MCell] = []
     for rowIndex in 0..<10 {
-      column.addObject(MCell())
+      column.append(MCell())
     }
 
-    var grid = NSMutableArray()
+    var grid:[[MCell]] = []
     for columnIndex in 0..<10 {
-      grid.addObject(column)
+      grid.append(column)
     }
 
     self.columns = grid
@@ -55,15 +55,4 @@ g.isCellAliveAt(0, 0)
 // or does it...?
 
 // STEP 1:
-
-g.isCellAliveAt(1, 0)
-
-// STEP 2:
-
-
-
-
-
-
-
 
