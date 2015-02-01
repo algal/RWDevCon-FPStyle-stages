@@ -1,0 +1,8 @@
+demo document shows steps
+
+0-For-Instructor/
+- editable originals
+- DemoInstructions (to use while doing demo)
+ - Just code and instructions
+
+1-Starter/

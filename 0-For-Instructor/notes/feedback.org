@@ -1,0 +1,45 @@
+* matt notes
+
+too long
+
+include video or screenshot of game in agenda, for motivation and context
+
+aliasing explanation good
+
+
+cut slide with circles and sqaures slide.
+mapping
+
+cut Swift support for FP.
+- refer to it in the demo
+
+remove remove NSMutableArray.
+just use class vs struct
+
+only switch from =class MCell= to =struct Cell=.
+
+emphasize that:
+- OO requires maintaining a mental map of references vs object.
+- FP does not.
+
+mention map,filter,reduce only in passing.
+
+focus on aliasing, immutability
+
+devise exercises focus on aliasing.
+
+device exercises focused on immutability.
+
+* ray notes
+
+- explain the introduction of the map function in more detail.
+1. first define argument function with a contextual name
+2. then refactor all arg names to represent it generically
+3. then show it as call to map
+
+- don't use the closure argument shorthand $0
+
+- add more links to other resourcs at the end
+
+- better job explaining when and why of class, struct, immutable.
+  
