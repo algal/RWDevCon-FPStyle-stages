@@ -3,9 +3,8 @@
 import UIKit
 
 // First we show the beginnings of an intuitive but not
-// particular "functional programming" way to model 
+// particularly "functional programming" way to model
 // Conway's Game of Life.
-
 
 // Conway's Game of Life takes place over a 2D grid,
 // which changes over time as cells live and die.
@@ -18,14 +17,15 @@ class MCell : NSObject {
 }
 
 class MGrid {
-  var columns:[[MCell]]
+  var columns:Array<Array<MCell>>
+  
   init() {
-    var column:[MCell] = []
+    var column = Array<MCell>()
     for rowIndex in 0..<10 {
       column.append(MCell())
     }
 
-    var grid:[[MCell]] = []
+    var grid = Array<Array<MCell>>()
     for columnIndex in 0..<10 {
       grid.append(column)
     }
@@ -39,7 +39,7 @@ class MGrid {
   }
   
   func setCell(columnIndex:Int,_ rowIndex:Int,_ alive:Bool) -> Void {
-    (self.columns[columnIndex][rowIndex] as MCell).alive = alive
+    self.columns[columnIndex][rowIndex].alive = alive
   }
 }
 
@@ -55,4 +55,18 @@ g.isCellAliveAt(0, 0)
 // or does it...?
 
 // STEP 1:
+
+g.isCellAliveAt(1, 0)
+
+// if the expression above evalutes to "true", we have an aliasing bug!
+
+
+// STEP 2:
+
+
+
+
+
+
+
 

@@ -17,7 +17,6 @@ Returns the results of concatenating the arrays produced by transforming every e
 :param: transform function taking an element of source element to an array of `T`
 :returns: Array<T>
 */
-
 // TODO: implement
 
 // MARK: frequency

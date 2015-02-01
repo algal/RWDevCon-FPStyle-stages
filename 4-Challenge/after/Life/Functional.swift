@@ -41,9 +41,9 @@ func frequencies<T : Hashable>(coll:[T]) -> Dictionary<T,Int>
   })
 }
 
+//
 // unused
-
-
+//
 
 /**
 

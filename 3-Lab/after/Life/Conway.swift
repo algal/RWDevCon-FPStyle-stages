@@ -16,39 +16,30 @@ Returns the cells active in the next time step. (pure)
 :param: activeCells cells active currently
 :returns: array of cells active in the next moment
 
-style: uses HOFs
 */
 func activeCellsOneStepAfter(activeCells:[Cell]) -> [Cell]
 {
-  /*
-  Every cell in `neighborings` represents an instance of that cell
-  being neighbored by one of the active cells. Since a cell can be neighbored
-  on many sides, we expect duplicates
-  */
-  let neighborings : [Cell] = mapcat(activeCells, neighbors)
+  // STAGE 1. loop to build array of every "neighboring", an instance of a living cell being neighbored
+  // i.e., "map" every active cell to an array of its neighbors, then concatante the arrays.
+  let neighborings = mapcat(activeCells, neighbors)
   
-  /*
-  This dictionary counts how many times each cell is neighbored
-  by an active cell
-  */
-  let neighboringsPerCell = frequencies(neighborings)
+  // STAGE 2. loop and count duplicate neighborings
+  // i.e. "reduce" an array of Cells to an array of (Cell,Int) tuples counting duplicates
+  var neighboringsPerCell = frequencies(neighborings)
   
-  /*
-  A cell is active at the next moment iff:
-  - it has three neighbors in this moment
-  - it has two neighbors in this moment, and is active in this moment
-  */
+  // STAGE 3. loop to filter only neighborings with certain counts
+  // filter an array of (Cell,Int) tuples based on the Int value and other conditions
+  let neighboringsPerCellActiveNextStep = filter(neighboringsPerCell,
+    { (theNeighbor:Cell,neighborCount:Int) -> Bool in
+      return (neighborCount == 3) || (neighborCount == 2 && find(activeCells,theNeighbor) != nil)
+  })
   
-  func isActiveNextStep(cell:Cell, neighboringCount:Int) -> Bool
-  {
-    return
-      (neighboringCount == 3) ||
-        (neighboringCount == 2 && find(activeCells,cell) != nil)
-  }
+  // STAGE 4. loop to gather only the neighborings themselves
+  // map an array of (Cell,Int) tuples to an array of Cells
+  let neighboringsActiveNextStep = map(neighboringsPerCellActiveNextStep, { (theNeighbor:Cell,_) -> Cell in return theNeighbor} )
   
-  let neighboringsActiveNextStep:[(Cell,Int)] = filter(neighboringsPerCell, isActiveNextStep )
-  let cellsActiveNextStep = map(neighboringsActiveNextStep, { ($0).0 } )
-  return cellsActiveNextStep
+  // result: the cells alive at the next step in time
+  return neighboringsActiveNextStep
 }
 
 /**
@@ -60,10 +51,14 @@ Returns all cells neighboring a cell. (Pure)
 private func neighbors(OfCell cell:Cell) -> [Cell]
 {
   let deltas = [(-1,-1),(0,-1),(1,-1),
-                (-1, 0),       (1,0 ),
-                (-1, 1),(0, 1),(1, 1)]
-
-  return map(deltas, { Cell(x: cell.x + $0.0, y: cell.y + $0.1) } )
+    (-1, 0),       (1,0 ),
+    (-1, 1),(0, 1),(1, 1)]
+  
+  let neighbors = map(deltas,{
+    (delta:(Int,Int)) -> Cell in
+    return Cell(x: cell.x + delta.0, y: cell.y + delta.1)
+  })
+  return neighbors
 }
 
 
